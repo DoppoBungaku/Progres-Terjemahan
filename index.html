@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress — Project Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #ffffff;
+    --surface: #f5f8fc;
+    --surface-2: #e4ecf7;
+    --border: #e1e7f0;
+    --track: #d7e3f5;
+    --accent: #2f5fd6;
+    --accent-dark: #16337d;
+    --text: #1a2333;
+    --text-dim: #6b7484;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height:1.5;
+  }
+
+  a { color: inherit; }
+
+  .wrap{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 20px 90px;
+  }
+
+  header.page-head{
+    margin-bottom: 48px;
+  }
+
+  header.page-head h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+
+  header.page-head p{
+    color: var(--text-dim);
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .project{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 20px;
+  }
+
+  .project .cover{
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: linear-gradient(135deg, var(--surface-2), var(--track));
+  }
+
+  /* fallback look if you haven't dropped in a real image yet */
+  .project .cover.placeholder{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:1.6rem;
+    color: var(--text-dim);
+  }
+
+  .project .body h2{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+
+  .bar-row{
+    margin-bottom: 10px;
+  }
+
+  .bar-row:last-of-type{
+    margin-bottom: 14px;
+  }
+
+  .bar-row .bar-label{
+    display:flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+  }
+
+  .bar-row .bar-label span:last-child{
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bar-track{
+    height: 8px;
+    background: var(--track);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .bar-fill{
+    height: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+    width: 0%;
+    transition: width 900ms ease;
+  }
+
+  .status-note{
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    margin: 4px 0 14px;
+  }
+
+  .actions{
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn{
+    display:inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 150ms ease, color 150ms ease;
+  }
+
+  .btn.primary{
+    background: var(--accent);
+    color: #ffffff;
+  }
+
+  .btn.primary:hover{
+    background: var(--accent-dark);
+  }
+
+  .btn.ghost{
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+
+  .btn.ghost:hover{
+    color: var(--text);
+    border-color: var(--text-dim);
+  }
+
+  a.btn:focus-visible, a:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 480px){
+    .project{
+      grid-template-columns: 1fr;
+    }
+    .project .cover{
+      width: 100%;
+      height: 160px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bar-fill{ transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="page-head">
+    <h1>Project Progress</h1>
+    <p>Terakhir diperbarui: <time id="updated-date">23 April 2026</time></p>
+  </header>
+
+  <main id="project-list">
+
+    <!-- ================= PROJECT CARD (copy this block per proyek) ================= -->
+    <article class="project">
+      <!-- Ganti dengan <img src="images/nama-file.jpg" alt="Cover Contoh Proyek" class="cover"> kalau sudah ada gambar -->
+      <div class="cover placeholder">CP</div>
+      <div class="body">
+        <h2>Contoh Proyek</h2>
+
+        <div class="bar-row">
+          <div class="bar-label"><span>Translation</span><span>100%</span></div>
+          <div class="bar-track"><div class="bar-fill complete" data-progress="100"></div></div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><span>Editing</span><span>75%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-progress="75"></div></div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><span>Quality Check</span><span>20%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-progress="20"></div></div>
+        </div>
+
+        <p class="status-note">Sedang proses QA, target rilis belum ditentukan.</p>
+
+        <div class="actions">
+          <a class="btn primary" href="#">Download</a>
+          <a class="btn ghost" href="#">Halaman produk</a>
+        </div>
+      </div>
+    </article>
+    <!-- ================= END PROJECT CARD ================= -->
+
+    <article class="project">
+      <div class="cover placeholder">P2</div>
+      <div class="body">
+        <h2>Proyek Kedua</h2>
+
+        <div class="bar-row">
+          <div class="bar-label"><span>Translation</span><span>100%</span></div>
+          <div class="bar-track"><div class="bar-fill complete" data-progress="100"></div></div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><span>Editing</span><span>100%</span></div>
+          <div class="bar-track"><div class="bar-fill complete" data-progress="100"></div></div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><span>Quality Check</span><span>100%</span></div>
+          <div class="bar-track"><div class="bar-fill complete" data-progress="100"></div></div>
+        </div>
+
+        <p class="status-note">Sudah rilis!</p>
+
+        <div class="actions">
+          <a class="btn primary" href="#">Download</a>
+          <a class="btn ghost" href="#">Halaman produk</a>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+</div>
+
+<script>
+  // Animasi progress bar mengisi saat halaman dibuka.
+  document.querySelectorAll('.bar-fill').forEach(function (bar) {
+    var target = bar.getAttribute('data-progress') + '%';
+    requestAnimationFrame(function () {
+      bar.style.width = target;
+    });
+  });
+</script>
+
+</body>
+</html>
